@@ -10,4 +10,4 @@ def prep(line):
     }
     # '': '',
     line = line.upper()
-    return "".join(list(map(lambda x: prep_dict[x], line)))
+    return "".join(list(map(lambda x: prep_dict.get(x, ''), line)))

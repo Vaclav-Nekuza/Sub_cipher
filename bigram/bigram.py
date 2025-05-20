@@ -20,13 +20,18 @@ def print_bigram_matrix(bigram_dict, out_file):
 
 def main(text_file, *, output_file=None):
     bigram_dict = {}
-    with open(f"{text_file}", encoding='UTF-8') as text:
-        for line in text:
-            if line != "\n":
-                prepared_line = prep(line)
-                bigram_dict = bigram(prepared_line, bigram_dict)
-    # sorts the dictionary by the number of uses of bigrams in descending order
-    bigram_dict = {key: value for key, value in sorted(bigram_dict.items(), key=lambda item: item[1], reverse=True)}
+    try:
+        with open(text_file, 'r', encoding='windows-1250') as text:
+            for line in text:
+                if line != "\n":
+                    prepared_line = prep(line)
+                    bigram_dict = bigram(prepared_line, bigram_dict)
+        # sorts the dictionary by the number of uses of bigrams in descending order
+        bigram_dict = {key: value for key, value in sorted(bigram_dict.items(), key=lambda item: item[1], reverse=True)}
+    except FileNotFoundError:
+        print(f"Error: Input file not found at '{text_file}'")
+        return None
+
     if output_file is not None:
         print_bigram_matrix(bigram_dict, output_file)
     else:
