@@ -1,6 +1,6 @@
 def print_cracked_cipher(cipher_output_file, alphabet_dict):
     bigram = []
-    with open(cipher_output_file, "w") as matrix:
+    with open(cipher_output_file, "r+") as matrix:
         for line in matrix:
             bigram.append(line[0]+line[1])
     return bigram
