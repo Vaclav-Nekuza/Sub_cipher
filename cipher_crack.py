@@ -1,16 +1,16 @@
 def print_cracked_cipher(cipher_output_file, alphabet_dict):
     bigram = []
-    with open(cipher_output_file, "w") as matrix:
+    with open(cipher_output_file, "r+") as matrix:
         for line in matrix:
             bigram.append(line[0]+line[1])
     return bigram
 
-"""
-def trd_crack(alphabet_dict, book_bigram, book_bigram_index, encoded_bigram, encoded_bigram_index):
-    matrix = []
-    for book_pair in book_bigram:
-        alphabet_dict[]
-"""
+
+# def trd_crack(alphabet_dict, book_bigram, book_bigram_index, encoded_bigram, encoded_bigram_index):
+#     matrix = []
+#     for book_pair in book_bigram:
+#         alphabet_dict[]
+
 
 
 def recursive_crack(alphabet_dict, book_bigram, book_bigram_index, encoded_bigram, encoded_bigram_index):
