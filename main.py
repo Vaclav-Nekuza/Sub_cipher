@@ -1,6 +1,6 @@
 from Substitution_cipher import encrypt, decrypt
 from bigram.bigram import main as bigram_main
-from cipher_crack import main as crack_main
+from mHAlgorithmCypherCrack import main as crack_main
 
 
 def main():
