@@ -27,6 +27,7 @@ def substitute_decrypt(ciphertext, key, alphabet):
 
     return ''.join(char_map.get(char, char) for char in ciphertext)
 
+
 def plausibility_calculation(TM_ref):
     log_probs = {}
     min_log_prob = math.log(1e-10)
@@ -44,6 +45,8 @@ def plausibility(text, log_probs, min_log_prob):
         a, b = text[i], text[i + 1]
         score += log_probs.get(a, {}).get(b, min_log_prob)
     return score
+
+
 
 def prolom_substitute(text, TM_ref, iter_count, alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_', start_key=None):
     key = list(alphabet) if start_key is None else start_key[:]
@@ -100,20 +103,33 @@ def prolom_substitute(text, TM_ref, iter_count, alphabet='ABCDEFGHIJKLMNOPQRSTUV
 
     return best_key, substitute_decrypt(text, best_key, alphabet)
 
-def open_file(Text):
+
+def open_file(filename):
     output = ''
-    with open(Text) as text:
+    with open(filename) as text:
         for line in text:
             output += line
     return output
 
-def main(tm_ref_name, iter, Text):
+
+def main(tm_ref_name, iter, Text, alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_'):
     tm_ref = load_bigram_matrix(tm_ref_name)
     tm_rel = normalize_matrix(tm_ref)
     ciphertext = open_file(Text)
     print(f"Loaded ciphertext: {ciphertext[:100]}...")
-    key, plaintext = prolom_substitute(ciphertext, tm_rel, iter)
+    key, plaintext = prolom_substitute(ciphertext, tm_rel, iter, alphabet)
     print("\n----------RESULTS----------")
     print(f"Found Key: {''.join(key)}")
     print(f"Decrypted Text: {plaintext}")
 
+    key_file_path = Text.replace('ciphertext.txt', 'key.txt')
+    plaintext_file_path = Text.replace('ciphertext.txt', 'plaintext.txt')
+
+    with open(key_file_path, 'w', encoding='utf-8') as f:
+        f.write(''.join(key))
+
+    with open(plaintext_file_path, 'w', encoding='utf-8') as f:
+        f.write(plaintext)
+
+    print(f"\nKey saved to: {key_file_path}")
+    print(f"Plaintext saved to: {plaintext_file_path}")
