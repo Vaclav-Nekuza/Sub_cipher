@@ -4,13 +4,12 @@ from mHalgorithmCypherCrack import main as crack_main
 
 
 def main():
-    book_bigram = bigram_main('valka s mloky.txt')
-    encoded_bigram = bigram_main('output.txt')
-    crack_main(book_bigram, encoded_bigram, 'output.txt')
-    # bigram_main('valka s mloky.txt', output_file="bigram_out.txt")
-    # encrypt("text_1000_sample_1_key.txt", "text_1000_sample_1_plaintext.txt")
-    # decrypt("text_1000_sample_1_key.txt", "output.txt", output_file="decrypted_output.txt")
-
+    fileNameToDecrypt = 'bigram/Testovaci_soubory/text_1000_sample_20_ciphertext.txt'
+    # alphabet = 'UDOBNLGSZPEFHRYWVKJTAIXQ_MC'
+    # encrypt(fileNameToDecrypt, fileNameToDecrypt)
+    # decrypt(fileNameToDecrypt, "output.txt", output_file="decrypted_output.txt")
+    bigram_main("bigram_out.txt")
+    crack_main("bigram_out.txt", 20000, fileNameToDecrypt)
 
 if __name__ == "__main__":
     main()
