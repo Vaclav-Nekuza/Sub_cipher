@@ -1,7 +1,7 @@
 from bigram.text_prep import prep
 
 
-def get_bigrams(text, bigram_dict):
+def update_bigram_dictionary(text, bigram_dict):
     """
     Updates the bigram dictionary with bigrams found in the given text.
     :param text: preprocessed string from which bigrams are extracted
@@ -29,7 +29,7 @@ def print_bigram_matrix(bigram_dict, out_file):
             out.write(f"{couple}:{bigram_dict[couple]}\n")
 
 
-def main(text_file, *, output_file=None):
+def get_bigram(text_file, *, output_file=None):
     """
     Loads a text file, extracts and counts bigrams using preprocessing.
     Optionally writes the result to a file or returns sorted bigrams.
@@ -44,7 +44,7 @@ def main(text_file, *, output_file=None):
             for line in text:
                 if line != "\n":
                     prepared_line = prep(line)
-                    bigram_dict = get_bigrams(prepared_line, bigram_dict)
+                    bigram_dict = update_bigram_dictionary(prepared_line, bigram_dict)
 
         # Sorts bigrams by frequency in descending order
         bigram_dict = {
@@ -58,8 +58,8 @@ def main(text_file, *, output_file=None):
 
     if output_file is not None:
         print_bigram_matrix(bigram_dict, output_file)
-    else:
-        return list(bigram_dict.keys())
+
+    return list(bigram_dict.keys())
 
 # if __name__ == '__main__':
 #     main('valka s mloky.txt')

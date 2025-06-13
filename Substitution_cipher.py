@@ -56,15 +56,15 @@ def en_decipher(cipher_file, text_file, encode, output_file, default_alphabet):
             output(coded_line, output_file)
 
 
-def substitute_encrypt(ciphertext, key, *, output_file='output.txt', default_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_'):
+def substitute_encrypt(plaintext, key, *, output_file='output.txt', default_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_'):
     """
     function for encrypting text, created to be imported by external file
-    :param ciphertext: name of a file with a new alphabet for encoding a text
+    :param plaintext: name of a file with a new alphabet for encoding a text
     :param key: name of a file with text to be encoded
     :param output_file: optional argument, name of a file for new transformed text
     :param default_alphabet: optional argument, basic alphabet
     """
-    en_decipher(ciphertext, key, True, output_file, default_alphabet)
+    en_decipher(plaintext, key, True, output_file, default_alphabet)
 
 
 def substitute_decrypt(ciphertext, key, *, output_file='output.txt', default_alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_'):
