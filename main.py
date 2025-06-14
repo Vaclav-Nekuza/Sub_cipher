@@ -1,5 +1,5 @@
-from Substitution_cipher import encrypt, decrypt
-from bigram.bigram import main as bigram_main
+from Substitution_cipher import substitute_encrypt, substitute_decrypt
+from bigram.bigram import get_bigram as bigram_main
 from mHAlgorithmCypherCrack import main as crack_main
 
 
