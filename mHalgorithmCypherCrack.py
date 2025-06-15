@@ -39,16 +39,16 @@ def plausibility_calculation(TM_ref):
 
     return log_probs, min_log_prob
 
-def plausibility(text, TM_ref, min_log_prob):
+def plausibility(text, log_probs, min_log_prob):
     score = 0.0
     for i in range(len(text) - 1):
         a, b = text[i], text[i + 1]
-        score += TM_ref.get(a, {}).get(b, min_log_prob)
+        score += log_probs.get(a, {}).get(b, min_log_prob)
     return score
 
 
 
-def prolom_substitute(text, TM_ref, iter, alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_', start_key=None):
+def prolom_substitute(text, TM_ref, iter_count, alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_', start_key=None):
     key = list(alphabet) if start_key is None else start_key[:]
     if start_key is None:
         random.shuffle(key)
@@ -66,8 +66,8 @@ def prolom_substitute(text, TM_ref, iter, alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
     EARLY_STOP_THRESHOLD = 5000
     RESET_THRESHOLD = 1000
 
-    for i in range(iter):
-        temperature = (1.0 - (i / iter)) ** 2
+    for i in range(iter_count):
+        temperature = (1.0 - (i / iter_count)) ** 2
 
         candidate = key[:]
         i1, i2 = random.sample(range(len(alphabet)), 2)
