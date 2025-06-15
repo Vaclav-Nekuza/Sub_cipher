@@ -1,7 +1,7 @@
 # tests\test_bigram.py
 import os
 
-from bigram.bigram import main
+from bigram.bigram import get_bigram
 
 
 def test_main_with_valid_file(tmp_path):
@@ -12,7 +12,7 @@ def test_main_with_valid_file(tmp_path):
     test_file.write_text("Testování bigramu. Toto je jen testování bigramu.", encoding="windows-1250")
 
     # Call main with output_file specified
-    main(test_file, output_file=output_file)
+    get_bigram(test_file, output_file=output_file)
 
     # Verify output was written correctly
     assert output_file.exists()
@@ -27,7 +27,7 @@ def test_main_with_return_value(tmp_path):
     test_file.write_text("Testování bigramu, pojďme to otestovat!", encoding="windows-1250")
 
     # Call main without specifying output_file
-    result = main(test_file)
+    result = get_bigram(test_file)
 
     # Verify the returned list of bigrams is valid
     assert isinstance(result, list)
@@ -42,7 +42,7 @@ def test_main_with_empty_file(tmp_path):
     test_file.write_text("", encoding="windows-1250")
 
     # Call main without specifying output_file
-    result = main(test_file)
+    result = get_bigram(test_file)
 
     # Verify the returned list is empty
     assert isinstance(result, list)
@@ -57,7 +57,7 @@ def test_main_with_special_characters(tmp_path):
     test_file.write_text("Ahoj!!! Tak jak to jde? Test... Test! @#@", encoding="windows-1250")
 
     # Call main with output_file
-    main(test_file, output_file=output_file)
+    get_bigram(test_file, output_file=output_file)
 
     # Check that the output file exists
     assert output_file.exists()

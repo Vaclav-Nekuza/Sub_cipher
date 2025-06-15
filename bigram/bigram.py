@@ -1,18 +1,17 @@
 from bigram.text_prep import prep
 
 
-def bigram(prepared_line, bigram_dict):
+def update_bigram_dictionary(text, bigram_dict):
     """
-    analyses single line of text and dissects it into a dictionary of pairs of letters as key and records number of
-    occurrences as a value
-    :param prepared_line: single line of text, that has been reduced to contain only required letters
-    :param bigram_dict: dictionary of bigrams and number of their occurrences
-    :return: cumulative dictionary record of bigram occurrences
+    Updates the bigram dictionary with bigrams found in the given text.
+    :param text: preprocessed string from which bigrams are extracted
+    :param bigram_dict: dictionary where bigram frequencies are stored
+    :return: updated bigram dictionary
     """
-    for i in range(0, len(prepared_line)-1):
-        couple = prepared_line[i] + prepared_line[i+1]
+    for i in range(0, len(text) - 1):
+        couple = text[i] + text[i + 1]
         if couple in bigram_dict:
-            bigram_dict[couple] = bigram_dict[couple] + 1
+            bigram_dict[couple] += 1
         else:
             bigram_dict[couple] = 1
     return bigram_dict
@@ -20,10 +19,9 @@ def bigram(prepared_line, bigram_dict):
 
 def print_bigram_matrix(bigram_dict, out_file):
     """
-    Optional function for keeping records
-    Writes down bigram occurrence dictionary into a file
-    :param bigram_dict: dictionary of bigrams and number of their occurrences
-    :param out_file: filename of the file for the dictionary of bigrams
+    Prints and saves the bigram frequency matrix to a file.
+    :param bigram_dict: dictionary with bigram frequencies
+    :param out_file: output file path where the matrix will be saved
     """
     with open(out_file, 'w') as out:
         for couple in bigram_dict.keys():
@@ -31,26 +29,37 @@ def print_bigram_matrix(bigram_dict, out_file):
             out.write(f"{couple}:{bigram_dict[couple]}\n")
 
 
-def main(text_file, *, output_file=None):
+def get_bigram(text_file, *, output_file=None):
     """
-    main function for creating a dictionary of bigrams and number of their occurrences
-    reads the required file and uses other functions to process it
-    :param text_file: filename of the file with text for processing into bigrams
-    :param output_file: filename of the file for the dictionary of bigrams
-    :return: list of bigrams in descending order by their occurrence
+    Loads a text file, extracts and counts bigrams using preprocessing.
+    Optionally writes the result to a file or returns sorted bigrams.
+
+    :param text_file: path to the input text file
+    :param output_file: optional path to save the resulting bigram matrix
+    :return: list of bigrams sorted by frequency (if output_file is None)
     """
     bigram_dict = {}
-    # UTF-8
-    # windows-1252
-    with open(f"{text_file}", encoding='windows-1250') as text:
-        for line in text:
-            if line != "\n":
-                prepared_line = prep(line)
-                bigram_dict = bigram(prepared_line, bigram_dict)
-    # sorts the dictionary by the number of uses of bigrams in descending order
-    bigram_dict = {key: value for key, value in sorted(bigram_dict.items(), key=lambda item: item[1], reverse=True)}
+    try:
+        with open(text_file, 'r', encoding='windows-1250') as text:
+            for line in text:
+                if line != "\n":
+                    prepared_line = prep(line)
+                    bigram_dict = update_bigram_dictionary(prepared_line, bigram_dict)
+
+        # Sorts bigrams by frequency in descending order
+        bigram_dict = {
+            key: value
+            for key, value in sorted(bigram_dict.items(), key=lambda item: item[1], reverse=True)
+        }
+
+    except FileNotFoundError:
+        print(f"Error: Input file not found at '{text_file}'")
+        return None
+
     if output_file is not None:
         print_bigram_matrix(bigram_dict, output_file)
+
     return list(bigram_dict.keys())
 
-
+# if __name__ == '__main__':
+#     main('valka s mloky.txt')
